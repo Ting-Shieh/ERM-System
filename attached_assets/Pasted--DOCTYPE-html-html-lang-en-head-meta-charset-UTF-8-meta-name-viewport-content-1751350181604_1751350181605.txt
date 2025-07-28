@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Year-end Risk Self-assessment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #003366;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .intro, .definitions, .acknowledgement {
+            background-color: #e9f5ff;
+            border-left: 5px solid #0056b3;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #003366;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e2e8f0;
+        }
+        .risk-category {
+            font-weight: bold;
+            background-color: #e9ecef;
+            vertical-align: middle;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="email"], input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .submit-btn {
+            display: block;
+            width: 200px;
+            margin: 40px auto 0;
+            padding: 12px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .submit-btn:hover {
+            background-color: #003d82;
+        }
+        .description-item {
+            margin-bottom: 8px;
+        }
+        .description-item strong {
+            color: #003366;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>2025 Year-end Risk Self-assessment / 2025 年度企業風險自評問卷</h1>
+
+        <div class="intro">
+            <p>This questionnaire is designed based on the systematic approach of assessing risks in accordance with COSO ERM, and we sincerely invite you to participate in the 2025 risk self-assessment process. Your observations and insights will contribute significantly to our overall risk assessment. To ensure sufficient time for completion, we kindly request that you complete the questionnaire by <strong>Jan. 15th 2026</strong>. Thank you very much!</p>
+            [cite_start]<p>本問卷是根據 COSO ERM 定義的企業評估風險的系統化方法而定義，誠摯邀請您參與 2025 年度風險自評流程。您的觀察和理解將對我們的整體風險評估做出重大貢獻，為確保有足夠的時間完成，我們懇請您在 <strong>2026年1月15日</strong> 之前完成問卷的填寫。非常感謝！ [cite: 5, 6, 7, 8, 9, 10]</p>
+        </div>
+
+        <div class="form-section">
+            <h2>Participant Information / 填寫人資訊</h2>
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required>
+            <br><br>
+            <label for="name">Name / 姓名 *</label>
+            <input type="text" id="name" name="name" required>
+            <br><br>
+            <label for="department">Department/Unit / 部門/單位 *</label>
+            <input type="text" id="department" name="department" required>
+        </div>
+
+        <div class="acknowledgement">
+            <h3>Acknowledgement / 聲明</h3>
+            <p>I understand that this risk self-assessment is based on my observations and understanding under the existing internal control mechanisms and defined approval authority, encompassing the department/unit/project/function that I manage and the scope of collaboration. The assessment method is derived from evaluating the comparative results, taking into account the operational management status from <strong>January 1, 2025, until now</strong>, to infer the potential impact of various risk categories and items on the operational risk level of the company in the foreseeable future.</p>
+            [cite_start]<p>我瞭解本次風險自評是基於我所管理的部門/單位/專案/職能及協作範圍，綜合評估目前內部控制機制及核決權限規範之下的觀察與瞭解所提出的評比結果。評估方式是依據 <strong>2025年1月1日</strong>迄今營運管理狀況推論可預見未來各風險類別及項目對於公司營運可能帶來的風險層級影響。 [cite: 19, 20, 21, 30]</p>
+            <label>
+                <input type="checkbox" name="acknowledgement" required>
+                <strong>Yes, I understand and agree. / 是，我瞭解並同意。</strong>
+            </label>
+        </div>
+
+        <div class="definitions">
+            <h3>Rating Definitions / 評級定義</h3>
+            <p>Please assess each risk item based on its <strong>Impact (影響程度)</strong> and <strong>Likelihood (發生可能性)</strong>. The combination of these two factors will determine the final risk level on the heat map.</p>
+            <p>請根據每個風險項目的<strong>影響程度</strong>與<strong>發生可能性</strong>進行評估，這兩項數據將決定該風險在熱區圖上的最終等級。</p>
+            <ul>
+                <li><strong>Impact (影響程度):</strong> The potential effect on operational objectives if the risk occurs. (1: Negligible ~ 5: Catastrophic) / 風險發生後對營運目標的潛在影響。(1: 可忽略 ~ 5: 災難性)</li>
+                <li><strong>Likelihood (發生可能性):</strong> The probability of the risk occurring in the foreseeable future. (1: Rare ~ 5: Almost Certain) / 可預見的未來中，此風險發生的機率。(1: 極低 ~ 5: 幾乎確定)</li>
+            </ul>
+        </div>
+
+
+        <h2>Risk Assessment / 風險評估</h2>
+        <form action="#" method="post">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:12%;">Risk Category / 風險類別</th>
+                        <th style="width:18%;">Risk Item / 風險子類型</th>
+                        <th>Description / 風險描述</th>
+                        <th style="width:8%;">Impact / 影響程度 (1-5)</th>
+                        <th style="width:8%;">Likelihood / 發生可能性 (1-5)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="2" class="risk-category">Strategic Risk / 策略風險</td>
+                        <td><strong>Competition Risk / 競爭風險</strong></td>
+                        <td>
+                            <div class="description-item"><strong>Definition:</strong> Inability to respond to competitors' offenses, potentially facing risks such as decreased market share and reduced revenue.</div>
+                            <div class="description-item"><strong>Scenario:</strong> Failure to continuously and effectively improve corporate governance, leading to an evaluation result that does not place the company in the top 5% (Tier 1). Other listed companies performing beyond expectations, indirectly preventing the company from entering the top 5%.</div>
+                            <div class="description-item"><strong>Industry Case:</strong> Intense competition in the memory module market, leading to increased brand concentration.</div>
+                            <hr>
+                            [cite_start]<div class="description-item"><strong>定義:</strong> 無法應對競爭對手的攻勢，可能會面臨市場份額下降、營收減少等風險。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>情境描述:</strong> 未能持續有效精進公司治理，導致評鑑結果未能列入前5%第一級公司；其它上櫃公司表現超出預期，間接造成威剛無法成功擠進前5%。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>業界案例:</strong> 記憶體模組市場競爭激烈，品牌集中度提升。 [cite: 1]</div>
+                        </td>
+                        <td><select name="impact_1"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                        <td><select name="likelihood_1"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Market Demand Change Risk / 市場需求變化風險</strong></td>
+                        <td>
+                            <div class="description-item"><strong>Definition:</strong> Consumer downgrading leading to a sharp drop in product specifications and prices; changes in or disappearance of customer demand; product appeals/service planning failing to capture customer preferences.</div>
+                            <div class="description-item"><strong>Scenario:</strong> Budget and profitability considerations for each product line affect inventory allocation, thereby influencing sales strategies. Poor market demand or excessively low customer target prices may lead to no deals, given the company's gross margin considerations.</div>
+                            <div class="description-item"><strong>Industry Case:</strong> Explosive demand for AI PCs and AI Servers, but weak demand for consumer electronics.</div>
+                            <hr>
+                            [cite_start]<div class="description-item"><strong>定義:</strong> 消費降級因素，導致產品規格與價格驟降；客戶需求變更或需求消失；產品訴求/服務規劃未掌握客戶喜好。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>情境描述:</strong> 各產品線預算與盈利能力考量，影響各產品線庫存配比，進而影響銷售策略；market demand太差或客戶target price過低，公司考量毛利情況下，可能導致不成交。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>業界案例:</strong> AI PC、AI Server需求爆發，但消費性電子需求疲軟。 [cite: 1]</div>
+                        </td>
+                        <td><select name="impact_2"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                        <td><select name="likelihood_2"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="12" class="risk-category">Operational Risk / 營運風險</td>
+                        <td><strong>Raw Material Price Volatility / 原物料價格波動</strong></td>
+                        <td>
+                             <div class="description-item"><strong>Definition:</strong> The potential risk a company may face due to the uncertainty and volatility of raw material prices in the market.</div>
+                             <div class="description-item"><strong>Scenario:</strong> Market economic changes and intense competition affecting revenue and profit; market downturn making it impossible for the business to achieve gross margin targets.</div>
+                             <div class="description-item"><strong>Industry Case:</strong> Drastic fluctuations in memory prices from 2023-2024, with significant drops and subsequent rebounds in DRAM and NAND prices.</div>
+                            <hr>
+                            [cite_start]<div class="description-item"><strong>定義:</strong> 由於市場上原材料價格的不確定性和波動性，公司可能面臨的潛在風險。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>情境描述:</strong> 市場經濟變動及競爭激烈，影響營收與獲利；市場下行導致業務無法達成毛利目標。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>業界案例:</strong> 2023-2024年記憶體價格劇烈波動，DRAM及NAND價格大幅下跌後回升。 [cite: 1]</div>
+                        </td>
+                        <td><select name="impact_3"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                        <td><select name="likelihood_3"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                    </tr>
+                     <tr>
+                        <td><strong>Material Shortage Risk / 缺料風險</strong></td>
+                        <td>
+                             <div class="description-item"><strong>Definition:</strong> When the supply chain is interrupted, various challenges may arise, including delays in production, delivery, and distribution, shortages of key materials or parts, increased costs, reduced revenue, and reputational damage.</div>
+                             <div class="description-item"><strong>Scenario:</strong> Shortage of electronic components preventing production and shipment; suppliers affected by natural or man-made disasters, leading to failure to meet estimated supply quantities and prices.</div>
+                             <div class="description-item"><strong>Industry Case:</strong> Global chip shortage from 2020-2022; capacity adjustments by major suppliers like SK Hynix, Micron, and Samsung in 2024.</div>
+                            <hr>
+                            [cite_start]<div class="description-item"><strong>定義:</strong> 當供應鏈中斷時，可能面臨各種挑戰，包括生產、交付和分銷的延遲、關鍵材料或零件的短缺、成本增加、收入減少以及聲譽受損。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>情境描述:</strong> 電子料件短缺導致無法生產出貨；供應商受天災、人禍等因素，導致預估供貨量與價格達標。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>業界案例:</strong> 2020-2022年全球晶片短缺，2024年SK Hynix、Micron、Samsung等主要供應商產能調整。 [cite: 1]</div>
+                        </td>
+                        <td><select name="impact_4"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                        <td><select name="likelihood_4"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                    </tr>
+                    <tr>
+                        <td><strong>New Product Development Risk / 新產品開發風險</strong></td>
+                        <td>
+                             <div class="description-item"><strong>Definition:</strong> Project management may face direct or indirect impacts, such as investment failures or market changes, which could lead to reduced expected project returns or asset impairment.</div>
+                             <div class="description-item"><strong>Scenario:</strong> High investment and R&D barriers for new products with uncertain success rates; JEDEC/CXL associations delaying the release of new standards; Intel/AMD delaying product launches; competitors launching products with the same or higher specifications first.</div>
+                             <div class="description-item"><strong>Industry Case:</strong> Technological evolution of DDR5/DDR6; explosive growth in demand for HBM for AI applications.</div>
+                            <hr>
+                            [cite_start]<div class="description-item"><strong>定義:</strong> 專案管理可能面臨直接或間接的影響，例如投資失利、市場變動等，可能會導致專案預期收益減少、資產減值等風險。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>情境描述:</strong> 新產品投資與技術研發門檻高，成功機率不確定；JEDEC/CXL協會延後發佈新標準；Intel/AMD延後產品上市；競品搶先發表相同規格或高規格產品。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>業界案例:</strong> DDR5/DDR6技術演進，AI應用對HBM需求爆發性成長。 [cite: 1]</div>
+                        </td>
+                        <td><select name="impact_5"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                        <td><select name="likelihood_5"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                    </tr>
+                    
+                    <tr>
+                        <td rowspan="4" class="risk-category">Financial Risk / 財務風險</td>
+                        <td><strong>Credit Risk / 信用風險</strong></td>
+                        <td>
+                            <div class="description-item"><strong>Definition:</strong> The risk that the company cannot meet its debt payment obligations on time. This typically refers to the company's inability to repay loans, suppliers, investors, or bondholders.</div>
+                            <div class="description-item"><strong>Scenario:</strong> High turnover among sales staff means new personnel have less understanding of customers; if a customer faces a financial crisis, it may not be detected early, preventing timely collection and leading to a surge in bad debts.</div>
+                            <div class="description-item"><strong>Industry Case:</strong> High customer concentration in the memory industry; a default by a major customer has a significant impact.</div>
+                            <hr>
+                            [cite_start]<div class="description-item"><strong>定義:</strong> 企業無法按時履行其債務支付義務的風險。這通常指企業無法償還借款、供應商、投資者或債券持有人所應收到的款項或利息。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>情境描述:</strong> 業務人員流動性大，新進業務人員對客戶掌握度較低，如客戶有財務危機可能不易察覺，無法提前收款，導致呆帳金額飆升。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>業界案例:</strong> 記憶體產業客戶集中度高，重要客戶違約影響重大。 [cite: 1]</div>
+                        </td>
+                        <td><select name="impact_6"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                        <td><select name="likelihood_6"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Currency Risk / 匯率風險</strong></td>
+                        <td>
+                            <div class="description-item"><strong>Definition:</strong> Exchange rate fluctuations affect sales costs, product prices, and profitability, thereby impacting the company's financial performance.</div>
+                            <div class="description-item"><strong>Scenario:</strong> Failure to implement hedging strategies, leading to unmet hedge coverage targets; drastic exchange rate volatility, excessively high hedging costs, or actual sales volumes exceeding estimates.</div>
+                            <div class="description-item"><strong>Industry Case:</strong> The memory industry is global, and exchange rate fluctuations have a significant impact.</div>
+                            <hr>
+                            [cite_start]<div class="description-item"><strong>定義:</strong> 匯率波動會影響銷售成本、產品價格和盈利能力，從而影響公司的財務業績。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>情境描述:</strong> 未落實執行避險策略致避險覆蓋率未達標；匯率波動劇烈，避險成本太高或實際進銷量超出預估值。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>業界案例:</strong> 記憶體產業為全球化產業，匯率波動影響重大。 [cite: 1]</div>
+                        </td>
+                        <td><select name="impact_7"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                        <td><select name="likelihood_7"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Funding Cost Risk / 資金成本風險</strong></td>
+                        <td>
+                             <div class="description-item"><strong>Definition:</strong> Liquidity risk is the risk that a company may not be able to meet its short-term financial obligations.</div>
+                             <div class="description-item"><strong>Scenario:</strong> Financial authorities adopt tight monetary policies, causing banks to reduce lending to corporations, leading to increased funding costs and affecting profit targets.</div>
+                             <div class="description-item"><strong>Industry Case:</strong> In the global inflationary environment of 2023-2025, central bank tightening policies affect the funding costs of the manufacturing industry.</div>
+                            <hr>
+                            [cite_start]<div class="description-item"><strong>定義:</strong> 流動性風險是指公司可能無法履行其短期財務義務。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>情境描述:</strong> 金融當局採取貨幣緊縮政策，導致銀行縮減貸放給企業資金數量，造成公司資金成本上升，影響獲利目標。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>業界案例:</strong> 2023-2025年全球通膨環境下，央行緊縮政策影響製造業資金成本。 [cite: 1]</div>
+                        </td>
+                        <td><select name="impact_8"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                        <td><select name="likelihood_8"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="4" class="risk-category">Emerging Risk / 新興風險</td>
+                        <td><strong>Geopolitical Conflict Risk / 地緣政治衝突風險</strong></td>
+                        <td>
+                            <div class="description-item"><strong>Definition:</strong> The risk that economic tensions between countries or regions escalate into trade wars, sanctions, or other forms of economic conflict that can disrupt global trade flows, supply chains, and investment flows.</div>
+                            <div class="description-item"><strong>Scenario:</strong> Geopolitical risks, such as trade barriers or other economic countermeasures arising from wars or international disputes, leading to inability to ship goods or economic recession, making it impossible to achieve performance targets.</div>
+                            <div class="description-item"><strong>Industry Case:</strong> The US-China tech war, the Russia-Ukraine war, and tensions in the Taiwan Strait affecting the global supply chain.</div>
+                            <hr>
+                            [cite_start]<div class="description-item"><strong>定義:</strong> 地緣經濟對抗是指國家或地區之間的經濟緊張局勢升級為貿易戰、制裁或其他形式的經濟衝突的風險，這些衝突可能會擾亂全球貿易流動、供應鏈和投資流動。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>情境描述:</strong> 地緣政治風險，因戰爭或國際糾紛所衍生之貿易壁壘或其他經濟制衡手段等不可抗力因素，導致無法出貨或是經濟衰退，業績無法達成。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>業界案例:</strong> 美中科技戰、俄烏戰爭、台海緊張情勢影響全球供應鏈。 [cite: 1]</div>
+                        </td>
+                        <td><select name="impact_9"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                        <td><select name="likelihood_9"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Technology Cold War Risk / 科技冷戰風險</strong></td>
+                        <td>
+                             <div class="description-item"><strong>Definition:</strong> Intensifying US-China tech competition, with the semiconductor industry becoming a focus of geopolitical maneuvering, affecting global supply chain layouts.</div>
+                             <div class="description-item"><strong>Scenario:</strong> Geopolitical risks, due to war or international disputes, leading to trade barriers or other economic countermeasures that result in an inability to ship or economic recession.</div>
+                             <div class="description-item"><strong>Industry Case:</strong> The ongoing US-China tech war, where semiconductors have become strategic materials.</div>
+                            <hr>
+                             [cite_start]<div class="description-item"><strong>定義:</strong> 美中科技競爭加劇，半導體產業成為地緣政治博弈焦點，影響全球供應鏈布局。 [cite: 1]</div>
+                             [cite_start]<div class="description-item"><strong>情境描述:</strong> 地緣政治風險因戰爭或國際糾紛所衍生之貿易壁壘或其他經濟制衡手段等不可抗力因素，導致無法出貨或是經濟衰退。 [cite: 1]</div>
+                             [cite_start]<div class="description-item"><strong>業界案例:</strong> 美中科技戰持續，半導體成為戰略物資。 [cite: 1]</div>
+                        </td>
+                        <td><select name="impact_10"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                        <td><select name="likelihood_10"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                    </tr>
+                    
+                     <tr>
+                        <td><strong>AI Transformation Risk / AI轉型風險</strong></td>
+                        <td>
+                            <div class="description-item"><strong>Definition:</strong> With the rapid development of AI technology, companies face multiple challenges in AI transformation, including technology, talent, and information security.</div>
+                            <div class="description-item"><strong>Scenario:</strong> Lack of AI resources (including talent, skills, and experience); participating IT staff have no AI technical background; IT cannot provide sufficient talent and professional support for the future promotion and implementation of AI applications in the company.</div>
+                            <div class="description-item"><strong>Industry Case:</strong> The AI wave in 2024-2025, accelerating corporate digital transformation and a surge in demand for AI applications.</div>
+                            <hr>
+                            [cite_start]<div class="description-item"><strong>定義:</strong> 隨著AI技術快速發展，企業面臨AI轉型的技術、人才、資安等多重挑戰。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>情境描述:</strong> AI資源匱乏(包括人才、技能和經驗)；參與的IT人員無任何AI技術基礎；對於未來公司推廣AI應用導入，IT無法提供充足的人才和專業的支援。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>業界案例:</strong> 2024-2025年AI浪潮，企業數位轉型加速，AI應用需求爆發。 [cite: 1]</div>
+                        </td>
+                        <td><select name="impact_11"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                        <td><select name="likelihood_11"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                    </tr>
+                     <tr>
+                        <td><strong>Carbon Pricing Risk / 碳定價風險</strong></td>
+                        <td>
+                            <div class="description-item"><strong>Definition:</strong> Global carbon pricing policies, such as carbon taxes and carbon border adjustment mechanisms, increase corporate operating costs.</div>
+                            <div class="description-item"><strong>Scenario:</strong> The cost of carbon emissions affects product pricing competitiveness; customers demand carbon footprint transparency.</div>
+                            <div class="description-item"><strong>Industry Case:</strong> The EU's CBAM will be implemented in 2026, setting a global trend for carbon pricing.</div>
+                            <hr>
+                            [cite_start]<div class="description-item"><strong>定義:</strong> 全球碳稅、碳邊境調整機制等碳定價政策，增加企業營運成本。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>情境描述:</strong> 碳排放成本化，影響產品定價競爭力；客戶要求碳足跡透明化。 [cite: 1]</div>
+                            [cite_start]<div class="description-item"><strong>業界案例:</strong> 歐盟CBAM 2026年實施，全球碳定價趨勢。 [cite: 1]</div>
+                        </td>
+                        <td><select name="impact_12"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                        <td><select name="likelihood_12"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+                    </tr>
+                    </tbody>
+            </table>
+            
+            <button type="submit" class="submit-btn">Submit / 提交問卷</button>
+        </form>
+
+    </div>
+
+</body>
+</html>
