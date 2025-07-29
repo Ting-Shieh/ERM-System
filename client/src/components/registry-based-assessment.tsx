@@ -60,6 +60,12 @@ const RegistryBasedAssessment = () => {
     queryKey: ['/api/risk-registry'],
   });
 
+  // 取得最新的參與者資訊
+  const { data: latestParticipantInfo } = useQuery({
+    queryKey: ['/api/risk-assessments'],
+    select: (data) => data[data.length - 1] // 取得最新的參與者資訊
+  });
+
   const form = useForm<AssessmentFormData>({
     resolver: zodResolver(assessmentFormSchema),
     defaultValues: {
@@ -87,8 +93,17 @@ const RegistryBasedAssessment = () => {
   };
 
   const createAssessmentMutation = useMutation({
-    mutationFn: (data: AssessmentFormData & { currentImpact: number; currentLikelihood: number; riskLevel: number; targetRiskLevel: number }) =>
-      apiRequest('/api/registry-assessments', 'POST', data),
+    mutationFn: (data: AssessmentFormData & { 
+      currentImpact: number; 
+      currentLikelihood: number; 
+      riskLevel: number; 
+      targetRiskLevel: number;
+      // 新增真實參與者資訊
+      realAssessorName: string;
+      realAssessorDepartment: string;
+      realAssessorEmail: string;
+    }) =>
+      apiRequest('POST', '/api/registry-assessments', data),
     onSuccess: () => {
       toast({
         title: "Assessment Submitted Successfully",
@@ -127,12 +142,20 @@ const RegistryBasedAssessment = () => {
     const riskLevel = currentImpact * currentLikelihood;
     const targetRiskLevel = riskLevel; // Same as current for now
 
+    // 準備真實參與者資訊
+    const realParticipantInfo = {
+      realAssessorName: latestParticipantInfo?.name || 'Unknown',
+      realAssessorDepartment: latestParticipantInfo?.department || 'Unknown',
+      realAssessorEmail: latestParticipantInfo?.email || 'unknown@company.com'
+    };
+
     createAssessmentMutation.mutate({
       ...data,
       currentImpact,
       currentLikelihood,
       riskLevel,
       targetRiskLevel,
+      ...realParticipantInfo
     });
   };
 

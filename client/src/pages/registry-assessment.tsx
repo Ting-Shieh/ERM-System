@@ -4,10 +4,67 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/ui/navigation";
 import RegistryBasedAssessment from "@/components/registry-based-assessment";
-import { ClipboardCheck, FileSpreadsheet, TrendingUp } from "lucide-react";
+import { ClipboardCheck, FileSpreadsheet, TrendingUp, Eye, AlertTriangle, CheckCircle } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import type { RegistryAssessment, RiskRegistry } from "@shared/schema";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 export default function RegistryAssessmentPage() {
   const [activeTab, setActiveTab] = useState("assessment");
+  const [selectedAssessment, setSelectedAssessment] = useState<RegistryAssessment | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 取得所有評估記錄
+  const { data: assessments = [], isLoading: assessmentsLoading } = useQuery<RegistryAssessment[]>({
+    queryKey: ['/api/registry-assessments'],
+  });
+
+  // 取得風險登陸表資料（用於顯示風險項目名稱）
+  const { data: registries = [] } = useQuery<RiskRegistry[]>({
+    queryKey: ['/api/risk-registry'],
+  });
+
+  // 取得風險項目名稱的輔助函數
+  const getRiskName = (riskId: number) => {
+    const risk = registries.find(r => r.id === riskId);
+    return risk ? risk.riskScenario : `Risk ID: ${riskId}`;
+  };
+
+  // 風險等級顏色函數
+  const getRiskLevelColor = (level: number) => {
+    if (level <= 4) return "bg-green-100 text-green-800";
+    if (level <= 9) return "bg-yellow-100 text-yellow-800";
+    if (level <= 16) return "bg-orange-100 text-orange-800";
+    return "bg-red-100 text-red-800";
+  };
+
+  // 開啟詳細檢視 Modal
+  const openDetailModal = (assessment: RegistryAssessment) => {
+    setSelectedAssessment(assessment);
+    setIsModalOpen(true);
+  };
+
+  // 關閉 Modal
+  const closeDetailModal = () => {
+    setIsModalOpen(false);
+    setSelectedAssessment(null);
+  };
+
+  // 風險變化分析函數
+  const getChangeColor = (change: number) => {
+    if (change > 0) return "text-red-600";
+    if (change < 0) return "text-green-600";
+    return "text-gray-600";
+  };
+
+  const getChangeText = (change: number) => {
+    if (change > 0) return `+${change} (上升)`;
+    if (change < 0) return `${change} (下降)`;
+    return "0 (無變化)";
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -89,11 +146,72 @@ export default function RegistryAssessmentPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-center py-12">
-                      <FileSpreadsheet className="mx-auto mb-4 text-6xl text-gray-300" />
-                      <p className="text-gray-500 mb-2">Assessment history will be displayed here</p>
-                      <p className="text-sm text-gray-400">評估歷史記錄將顯示在此處</p>
-                    </div>
+                    {assessmentsLoading ? (
+                      <div className="text-center py-12">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[hsl(213,94%,42%)] mx-auto mb-4"></div>
+                        <p className="text-gray-600">Loading assessment history...</p>
+                      </div>
+                    ) : assessments.length === 0 ? (
+                      <div className="text-center py-12">
+                        <FileSpreadsheet className="mx-auto mb-4 text-6xl text-gray-300" />
+                        <p className="text-gray-500 mb-2">No assessment records found</p>
+                        <p className="text-sm text-gray-400">尚未有評估記錄</p>
+                      </div>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>評估者</TableHead>
+                              <TableHead>風險項目</TableHead>
+                              <TableHead>影響程度</TableHead>
+                              <TableHead>可能性</TableHead>
+                              <TableHead>風險等級</TableHead>
+                              <TableHead>評估時間</TableHead>
+                              <TableHead>操作</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {assessments.map((assessment) => (
+                              <TableRow key={assessment.id}>
+                                <TableCell>
+                                  <div>
+                                    <div className="font-medium">{assessment.assessorName}</div>
+                                    <div className="text-sm text-gray-500">{assessment.assessorDepartment}</div>
+                                  </div>
+                                </TableCell>
+                                <TableCell>
+                                  <div className="max-w-xs truncate" title={getRiskName(assessment.riskRegistryId)}>
+                                    {getRiskName(assessment.riskRegistryId)}
+                                  </div>
+                                </TableCell>
+                                <TableCell>{assessment.currentImpact}</TableCell>
+                                <TableCell>{assessment.currentLikelihood}</TableCell>
+                                <TableCell>
+                                  <Badge className={getRiskLevelColor(assessment.riskLevel)}>
+                                    {assessment.riskLevel}
+                                  </Badge>
+                                </TableCell>
+                                <TableCell>
+                                  {new Date(assessment.createdAt).toLocaleString('zh-TW')}
+                                </TableCell>
+                                <TableCell>
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm"
+                                    onClick={() => openDetailModal(assessment)}
+                                    className="border-[hsl(213,94%,42%)] text-[hsl(213,94%,42%)] hover:bg-[hsl(213,94%,42%)] hover:text-white"
+                                  >
+                                    <Eye className="w-4 h-4 mr-1" />
+                                    檢視詳情
+                                  </Button>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -182,6 +300,222 @@ export default function RegistryAssessmentPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* 詳細檢視 Modal */}
+      <Dialog open={isModalOpen} onOpenChange={closeDetailModal}>
+        <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-[hsl(218,100%,34%)]">
+              <Eye className="w-5 h-5" />
+              評估詳細記錄 | Assessment Detail
+            </DialogTitle>
+            <DialogDescription>
+              評估時間：{selectedAssessment ? new Date(selectedAssessment.createdAt).toLocaleString('zh-TW') : ''}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedAssessment && (
+            <div className="space-y-6">
+              {/* 評估者資訊 */}
+              <Card className="border-[hsl(213,94%,42%)] border-2">
+                <CardHeader className="bg-gradient-to-r from-[hsl(213,94%,42%)] to-[hsl(218,100%,34%)] text-white">
+                  <CardTitle className="flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5" />
+                    評估者資訊 | Assessor Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <div className="grid grid-cols-3 gap-4">
+                    <div>
+                      <Label className="text-sm font-medium text-gray-700">姓名</Label>
+                      <p className="font-medium text-[hsl(218,100%,34%)]">
+                        {selectedAssessment.realAssessorName || selectedAssessment.assessorName}
+                      </p>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-gray-700">部門</Label>
+                      <p className="font-medium text-[hsl(218,100%,34%)]">
+                        {selectedAssessment.realAssessorDepartment || selectedAssessment.assessorDepartment}
+                      </p>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-gray-700">電子郵件</Label>
+                      <p className="font-medium text-[hsl(218,100%,34%)]">
+                        {selectedAssessment.realAssessorEmail || selectedAssessment.assessorEmail}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 風險項目資訊 */}
+              <Card className="border-[hsl(213,94%,42%)] border-2">
+                <CardHeader className="bg-gradient-to-r from-[hsl(213,94%,42%)] to-[hsl(218,100%,34%)] text-white">
+                  <CardTitle className="flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5" />
+                    風險項目 | Risk Item
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  {(() => {
+                    const risk = registries.find(r => r.id === selectedAssessment.riskRegistryId);
+                    return (
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-medium text-gray-700">策略目標</Label>
+                          <p className="text-sm text-gray-700 mt-1">{risk?.strategicObjective}</p>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-medium text-gray-700">子策略目標</Label>
+                          <p className="text-sm text-gray-700 mt-1">{risk?.subObjective}</p>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-medium text-gray-700">風險情境</Label>
+                          <p className="text-sm text-gray-700 mt-1">{risk?.riskScenario}</p>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-medium text-gray-700">風險類別</Label>
+                          <Badge variant="outline" className="mt-1 border-[hsl(213,94%,42%)] text-[hsl(213,94%,42%)]">
+                            {risk?.riskCategory}
+                          </Badge>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </CardContent>
+              </Card>
+
+              {/* 2024年評估結果 */}
+              <Card className="border-orange-200 bg-orange-50">
+                <CardHeader>
+                  <CardTitle className="text-orange-800 flex items-center gap-2">
+                    <TrendingUp className="w-5 h-5" />
+                    2024年評估結果 | 2024 Assessment Results
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  {(() => {
+                    const risk = registries.find(r => r.id === selectedAssessment.riskRegistryId);
+                    return (
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="text-center">
+                          <Label className="text-sm font-medium text-gray-700">影響程度</Label>
+                          <p className="text-2xl font-bold text-blue-600 mt-1">{risk?.responsibleImpact || 'N/A'}</p>
+                        </div>
+                        <div className="text-center">
+                          <Label className="text-sm font-medium text-gray-700">可能性</Label>
+                          <p className="text-2xl font-bold text-blue-600 mt-1">{risk?.responsiblePossibility || 'N/A'}</p>
+                        </div>
+                        <div className="text-center">
+                          <Label className="text-sm font-medium text-gray-700">風險等級</Label>
+                          <Badge className="text-lg px-3 py-2 bg-orange-100 text-orange-800 mt-1">
+                            {risk?.responsibleRiskLevel || 'N/A'}
+                          </Badge>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </CardContent>
+              </Card>
+
+              {/* 2025年評估結果 */}
+              <Card className="border-green-200 bg-green-50">
+                <CardHeader>
+                  <CardTitle className="text-green-800 flex items-center gap-2">
+                    <TrendingUp className="w-5 h-5" />
+                    2025年評估結果 | 2025 Assessment Results
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <div className="grid grid-cols-3 gap-4 mb-4">
+                    <div className="text-center">
+                      <Label className="text-sm font-medium text-gray-700">影響程度</Label>
+                      <p className="text-2xl font-bold text-green-600 mt-1">{selectedAssessment.currentImpact}</p>
+                    </div>
+                    <div className="text-center">
+                      <Label className="text-sm font-medium text-gray-700">可能性</Label>
+                      <p className="text-2xl font-bold text-green-600 mt-1">{selectedAssessment.currentLikelihood}</p>
+                    </div>
+                    <div className="text-center">
+                      <Label className="text-sm font-medium text-gray-700">風險等級</Label>
+                      <Badge className={`text-lg px-3 py-2 mt-1 ${getRiskLevelColor(selectedAssessment.riskLevel)}`}>
+                        {selectedAssessment.riskLevel}
+                      </Badge>
+                    </div>
+                  </div>
+                  
+                  {/* 風險變化分析 */}
+                  <div className="border-t border-green-200 pt-4">
+                    <h4 className="font-semibold text-green-800 mb-3 flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4" />
+                      風險變化分析 | Risk Change Analysis
+                    </h4>
+                    {(() => {
+                      const risk = registries.find(r => r.id === selectedAssessment.riskRegistryId);
+                      const impactChange = selectedAssessment.currentImpact - (risk?.responsibleImpact || 0);
+                      const likelihoodChange = selectedAssessment.currentLikelihood - (risk?.responsiblePossibility || 0);
+                      const riskLevelChange = selectedAssessment.riskLevel - (risk?.responsibleRiskLevel || 0);
+                      
+                      return (
+                        <div className="grid grid-cols-3 gap-4 text-sm">
+                          <div className="text-center">
+                            <Label className="text-sm font-medium text-gray-700">影響程度變化</Label>
+                            <p className={`font-medium mt-1 ${getChangeColor(impactChange)}`}>
+                              {getChangeText(impactChange)}
+                            </p>
+                          </div>
+                          <div className="text-center">
+                            <Label className="text-sm font-medium text-gray-700">可能性變化</Label>
+                            <p className={`font-medium mt-1 ${getChangeColor(likelihoodChange)}`}>
+                              {getChangeText(likelihoodChange)}
+                            </p>
+                          </div>
+                          <div className="text-center">
+                            <Label className="text-sm font-medium text-gray-700">風險等級變化</Label>
+                            <p className={`font-medium mt-1 ${getChangeColor(riskLevelChange)}`}>
+                              {getChangeText(riskLevelChange)}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 評估備註 */}
+              {selectedAssessment.assessmentNotes && (
+                <Card className="border-blue-200 bg-blue-50">
+                  <CardHeader>
+                    <CardTitle className="text-blue-800 flex items-center gap-2">
+                      <CheckCircle className="w-5 h-5" />
+                      評估備註 | Assessment Notes
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-6">
+                    <p className="text-gray-700 whitespace-pre-wrap">{selectedAssessment.assessmentNotes}</p>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* 改善建議 */}
+              {selectedAssessment.mitigationActions && (
+                <Card className="border-purple-200 bg-purple-50">
+                  <CardHeader>
+                    <CardTitle className="text-purple-800 flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5" />
+                      改善建議 | Mitigation Actions
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-6">
+                    <p className="text-gray-700 whitespace-pre-wrap">{selectedAssessment.mitigationActions}</p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

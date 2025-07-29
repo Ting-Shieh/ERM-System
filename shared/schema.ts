@@ -51,49 +51,6 @@ export const riskAssessments = pgTable("risk_assessments", {
   submittedAt: timestamp("submitted_at").defaultNow(),
 });
 
-export const insertRiskAssessmentSchema = createInsertSchema(riskAssessments).omit({
-  id: true,
-  submittedAt: true,
-}).extend({
-  email: z.string().email("Invalid email format"),
-  name: z.string().min(1, "Name is required"),
-  department: z.string().min(1, "Department is required"),
-  acknowledgement: z.boolean().refine(val => val === true, "You must acknowledge the terms"),
-  // Strategic Risk
-  competitionImpact: z.number().min(1).max(5).optional(),
-  competitionLikelihood: z.number().min(1).max(5).optional(),
-  marketDemandImpact: z.number().min(1).max(5).optional(),
-  marketDemandLikelihood: z.number().min(1).max(5).optional(),
-  // Operational Risk
-  rawMaterialImpact: z.number().min(1).max(5).optional(),
-  rawMaterialLikelihood: z.number().min(1).max(5).optional(),
-  materialShortageImpact: z.number().min(1).max(5).optional(),
-  materialShortageLikelihood: z.number().min(1).max(5).optional(),
-  newProductDevelopmentImpact: z.number().min(1).max(5).optional(),
-  newProductDevelopmentLikelihood: z.number().min(1).max(5).optional(),
-  // Financial Risk
-  creditImpact: z.number().min(1).max(5).optional(),
-  creditLikelihood: z.number().min(1).max(5).optional(),
-  currencyImpact: z.number().min(1).max(5).optional(),
-  currencyLikelihood: z.number().min(1).max(5).optional(),
-  fundingCostImpact: z.number().min(1).max(5).optional(),
-  fundingCostLikelihood: z.number().min(1).max(5).optional(),
-  // Emerging Risk
-  geopoliticalConflictImpact: z.number().min(1).max(5).optional(),
-  geopoliticalConflictLikelihood: z.number().min(1).max(5).optional(),
-  technologyColdWarImpact: z.number().min(1).max(5).optional(),
-  technologyColdWarLikelihood: z.number().min(1).max(5).optional(),
-  aiTransformationImpact: z.number().min(1).max(5).optional(),
-  aiTransformationLikelihood: z.number().min(1).max(5).optional(),
-  carbonPricingImpact: z.number().min(1).max(5).optional(),
-  carbonPricingLikelihood: z.number().min(1).max(5).optional(),
-});
-
-export const insertUserSchema = createInsertSchema(users).omit({
-  id: true,
-  createdAt: true,
-});
-
 export const riskRegistry = pgTable("risk_registry", {
   id: serial("id").primaryKey(),
   
@@ -145,6 +102,81 @@ export const riskRegistry = pgTable("risk_registry", {
   updatedAt: timestamp("updated_at").defaultNow()
 });
 
+export const registryAssessments = pgTable("registry_assessments", {
+  id: serial("id").primaryKey(),
+  riskRegistryId: integer("risk_registry_id").notNull(),
+  
+  // 真實參與者資訊（新增）
+  realAssessorName: text("real_assessor_name"),
+  realAssessorDepartment: text("real_assessor_department"),
+  realAssessorEmail: text("real_assessor_email"),
+  
+  // 原有測試資訊（保留向後相容）
+  assessorEmail: text("assessor_email").notNull(),
+  assessorName: text("assessor_name").notNull(),
+  assessorDepartment: text("assessor_department").notNull(),
+  
+  // Current Risk Assessment
+  currentImpact: integer("current_impact").notNull(),
+  currentLikelihood: integer("current_likelihood").notNull(),
+  riskLevel: integer("risk_level").notNull(),
+  
+  // Target Risk Assessment (Optional)
+  targetImpact: integer("target_impact"),
+  targetLikelihood: integer("target_likelihood"),
+  targetRiskLevel: integer("target_risk_level"),
+  
+  // Additional Information
+  assessmentNotes: text("assessment_notes"),
+  mitigationActions: text("mitigation_actions"),
+  
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow()
+});
+
+export const insertRiskAssessmentSchema = createInsertSchema(riskAssessments).omit({
+  id: true,
+  submittedAt: true,
+}).extend({
+  email: z.string().email("Invalid email format"),
+  name: z.string().min(1, "Name is required"),
+  department: z.string().min(1, "Department is required"),
+  acknowledgement: z.boolean().refine(val => val === true, "You must acknowledge the terms"),
+  // Strategic Risk
+  competitionImpact: z.number().min(1).max(5).optional(),
+  competitionLikelihood: z.number().min(1).max(5).optional(),
+  marketDemandImpact: z.number().min(1).max(5).optional(),
+  marketDemandLikelihood: z.number().min(1).max(5).optional(),
+  // Operational Risk
+  rawMaterialImpact: z.number().min(1).max(5).optional(),
+  rawMaterialLikelihood: z.number().min(1).max(5).optional(),
+  materialShortageImpact: z.number().min(1).max(5).optional(),
+  materialShortageLikelihood: z.number().min(1).max(5).optional(),
+  newProductDevelopmentImpact: z.number().min(1).max(5).optional(),
+  newProductDevelopmentLikelihood: z.number().min(1).max(5).optional(),
+  // Financial Risk
+  creditImpact: z.number().min(1).max(5).optional(),
+  creditLikelihood: z.number().min(1).max(5).optional(),
+  currencyImpact: z.number().min(1).max(5).optional(),
+  currencyLikelihood: z.number().min(1).max(5).optional(),
+  fundingCostImpact: z.number().min(1).max(5).optional(),
+  fundingCostLikelihood: z.number().min(1).max(5).optional(),
+  // Emerging Risk
+  geopoliticalConflictImpact: z.number().min(1).max(5).optional(),
+  geopoliticalConflictLikelihood: z.number().min(1).max(5).optional(),
+  technologyColdWarImpact: z.number().min(1).max(5).optional(),
+  technologyColdWarLikelihood: z.number().min(1).max(5).optional(),
+  aiTransformationImpact: z.number().min(1).max(5).optional(),
+  aiTransformationLikelihood: z.number().min(1).max(5).optional(),
+  carbonPricingImpact: z.number().min(1).max(5).optional(),
+  carbonPricingLikelihood: z.number().min(1).max(5).optional(),
+});
+
+export const insertUserSchema = createInsertSchema(users).omit({
+  id: true,
+  createdAt: true,
+});
+
 export const insertRiskRegistrySchema = createInsertSchema(riskRegistry).omit({
   id: true,
   createdAt: true,
@@ -168,33 +200,6 @@ export const insertRiskRegistrySchema = createInsertSchema(riskRegistry).omit({
   responsiblePossibility: z.number().min(1).max(5).optional(),
   responsibleImpact: z.number().min(1).max(5).optional(),
   responsibleRiskLevel: z.number().min(1).max(25).optional(),
-});
-
-export const registryAssessments = pgTable("registry_assessments", {
-  id: serial("id").primaryKey(),
-  riskRegistryId: integer("risk_registry_id").notNull(),
-  
-  // Assessor Information
-  assessorEmail: text("assessor_email").notNull(),
-  assessorName: text("assessor_name").notNull(),
-  assessorDepartment: text("assessor_department").notNull(),
-  
-  // Current Risk Assessment
-  currentImpact: integer("current_impact").notNull(),
-  currentLikelihood: integer("current_likelihood").notNull(),
-  riskLevel: integer("risk_level").notNull(),
-  
-  // Target Risk Assessment (Optional)
-  targetImpact: integer("target_impact"),
-  targetLikelihood: integer("target_likelihood"),
-  targetRiskLevel: integer("target_risk_level"),
-  
-  // Additional Information
-  assessmentNotes: text("assessment_notes"),
-  mitigationActions: text("mitigation_actions"),
-  
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow()
 });
 
 export const insertRegistryAssessmentSchema = createInsertSchema(registryAssessments).omit({
@@ -221,3 +226,61 @@ export type InsertRiskRegistry = z.infer<typeof insertRiskRegistrySchema>;
 export type RiskRegistry = typeof riskRegistry.$inferSelect;
 export type InsertRegistryAssessment = z.infer<typeof insertRegistryAssessmentSchema>;
 export type RegistryAssessment = typeof registryAssessments.$inferSelect;
+
+// 企業策略及目標表
+export const strategicObjectives = pgTable("strategic_objectives", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  leader: text("leader").notNull(),
+  year: integer("year").notNull(),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// 子策略目標表
+export const subStrategicObjectives = pgTable("sub_strategic_objectives", {
+  id: serial("id").primaryKey(),
+  strategicObjectiveId: integer("strategic_objective_id").notNull().references(() => strategicObjectives.id),
+  name: text("name").notNull(),
+  year: integer("year").notNull(),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// 風險類型表
+export const riskCategories = pgTable("risk_categories", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  year: integer("year").notNull(),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// 新增的類型定義
+export type StrategicObjective = typeof strategicObjectives.$inferSelect;
+export type InsertStrategicObjective = typeof strategicObjectives.$inferInsert;
+
+export type SubStrategicObjective = typeof subStrategicObjectives.$inferSelect;
+export type InsertSubStrategicObjective = typeof subStrategicObjectives.$inferInsert;
+
+export type RiskCategory = typeof riskCategories.$inferSelect;
+export type InsertRiskCategory = typeof riskCategories.$inferInsert;
+
+// 策略風險關聯表
+export const strategicRiskMappings = pgTable("strategic_risk_mappings", {
+  id: serial("id").primaryKey(),
+  strategicObjectiveId: integer("strategic_objective_id").notNull().references(() => strategicObjectives.id),
+  subStrategicObjectiveId: integer("sub_strategic_objective_id").notNull().references(() => subStrategicObjectives.id),
+  riskCategoryId: integer("risk_category_id").notNull().references(() => riskCategories.id),
+  year: integer("year").notNull(),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// 關聯表的類型定義
+export type StrategicRiskMapping = typeof strategicRiskMappings.$inferSelect;
+export type InsertStrategicRiskMapping = typeof strategicRiskMappings.$inferInsert;
